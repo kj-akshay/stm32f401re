@@ -7,6 +7,11 @@
 
 #ifndef INC_STM32F401XX_H_
 #define INC_STM32F401XX_H_
+
+
+#include<stdint.h>
+
+#define __vo	volatile
 /*
 Base addrress of Falsh and Sram memory
 */
@@ -33,7 +38,7 @@ Base address of peripherals which are hanging on AHB1 bus
 #define GPIOD_BASEADDR  (AHB1PERIPH_BASE + 0x0C00)
 #define GPIOE_BASEADDR  (AHB1PERIPH_BASE + 0x1000)
 #define GPIOH_BASEADDR  (AHB1PERIPH_BASE + 0x1C00)      
-
+#define RCC_BASEADDR	(AHB1PERIPH_BASE + 0x3800)
 
 /*
 Base address of peripherals which are hanging on APB1 bus
@@ -47,6 +52,83 @@ Base address of peripherals which are hanging on APB1 bus
 #define USART2_BASEADDR (APB1PERIPH_BASE + 0x4400)
 
 
+/*
+Base address of peripherals which are hanging on APB2 bus
+(TIM1,USART1,USART6,SPI,SPI1,SPI4,SYSCFG,EXTI,TIM9,10,11) page 38 of reference manual
+*/
+#define USART1_BASEADDR	(APB2PERIPH_BASE + 0x1000 )
+#define USART6_BASEADDR	(APB2PERIPH_BASE + 0x1400 )
+#define ADC1_BASEADDR	(APB2PERIPH_BASE + 0x2000 )
+#define SPI1_BASEADDR	(APB2PERIPH_BASE + 0x3000 )
+#define SPI4_BASEADDR	(APB2PERIPH_BASE + 0x3400 )
+#define SYSCFG_BASEADDR	(APB2PERIPH_BASE + 0x3800 )
+#define EXTI_BASEADDR	(APB2PERIPH_BASE + 0x3C00 )
+
+
+
+
+/*********************Peripheral register definition structure***********************/
+
+typedef struct
+{
+	__vo uint32_t MODER;					//port mode register	0x00
+	__vo uint32_t OTYPER;				//output type register	0x04
+	__vo uint32_t OSPEEDR;				//output speed register	0x08
+	__vo uint32_t PUPDR;					//pull-up/pull-down register	0x0C
+	__vo uint32_t IDR;					//input data register	0x10
+	__vo uint32_t ODR;					//output data register	0x14
+	__vo uint32_t BSRR;					//bit set/reset register	0x18
+	__vo uint32_t LCKR;					//configuration lock register	0x1C
+	__vo uint32_t AFRL;					//alternate function low register	0x20
+	__vo uint32_t AFRH;					//alternate function high register	0x24
+}GPIO_RegDef_t;
+
+/************************Register definition for RCC***********************/
+typedef struct
+{
+	__vo uint32_t CR;
+	__vo uint32_t PLLCFGR;
+	__vo uint32_t CFGR;
+	__vo uint32_t CIR;
+	__vo uint32_t AHB1RSTR;
+	__vo uint32_t AHB2RSTR;
+	__vo uint32_t RESERVED[2];
+	__vo uint32_t APB1RSTR;
+	__vo uint32_t APB2RSTR;
+	__vo uint32_t RESERVED1[2];
+	__vo uint32_t AHB1ENR;
+	__vo uint32_t AHB2ENR;
+	__vo uint32_t RESERVED2[2];
+	__vo uint32_t APB1ENR;
+	__vo uint32_t APB2ENR;
+	__vo uint32_t RESERVED3[2];
+	__vo uint32_t AHB1LPENR;
+	__vo uint32_t AHB2LPENR;
+	__vo uint32_t RESERVED4[2];
+	__vo uint32_t APB1LPENR;
+	__vo uint32_t APB2LPENR;
+	__vo uint32_t RESERVED5[2];
+	__vo uint32_t BDCR;
+	__vo uint32_t CSR;
+	__vo uint32_t RESERVED6[2];
+	__vo uint32_t SSCGR;
+	__vo uint32_t PLLI2SCFGR;
+	__vo uint32_t RESERVED7;
+	__vo uint32_t DCKCFGR;
+
+}RCC_RegDef_t;
+
+/*
+ * peripheral definitions (Peripheral base address tycasted to xxx_RegDef_t)
+ */
+#define GPIOA	((GPIO_RegDef_t) GPIOA_BASEADDR))
+#define GPIOB	((GPIO_RegDef_t) GPIOB_BASEADDR))
+#define GPIOC	((GPIO_RegDef_t) GPIOC_BASEADDR))
+#define GPIOD	((GPIO_RegDef_t) GPIOD_BASEADDR))
+#define GPIOE	((GPIO_RegDef_t) GPIOE_BASEADDR))
+#define GPIOH	((GPIO_RegDef_t) GPIOH_BASEADDR))
+
+#define RCC		((RCC_RegDef_t) RCC_BASEADDR))
 
 
 #endif /* INC_STM32F401XX_H_ */
