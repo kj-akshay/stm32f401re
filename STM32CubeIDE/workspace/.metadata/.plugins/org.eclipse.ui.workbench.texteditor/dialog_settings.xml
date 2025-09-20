@@ -3,6 +3,10 @@
 	<item key="hasShownOverlayPopupBefore" value="true"/>
 	<item key="replaceBarOpen" value="false"/>
 	<list key="searchhistory">
+		<item value="RCC_RegDef_t"/>
+		<item value="RCC"/>
+		<item value="APB1ENR"/>
+		<item value="AHB1ENR"/>
 		<item value="GPIO_RegDef_t"/>
 		<item value="RCC_BASE_ADDR"/>
 		<item value="RCC_APB2_ENR_REG_ADDR"/>

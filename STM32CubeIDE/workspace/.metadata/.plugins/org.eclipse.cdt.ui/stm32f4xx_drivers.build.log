@@ -1,17 +1,10 @@
-21:34:57 **** Incremental Build of configuration Debug for project stm32f4xx_drivers ****
-make -j4 all 
-arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DNUCLEO_F401RE -DSTM32 -DSTM32F401RETx -DSTM32F4 -c -I../Inc -I"C:/Users/aksha/OneDrive/Akshay/stm32f401re/STM32CubeIDE/workspace/stm32f4xx_drivers/drivers/inc" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/main.o"
-arm-none-eabi-gcc -o "stm32f4xx_drivers.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\aksha\OneDrive\Akshay\stm32f401re\STM32CubeIDE\workspace\stm32f4xx_drivers\STM32F401RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="stm32f4xx_drivers.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: stm32f4xx_drivers.elf
- 
-arm-none-eabi-size  stm32f4xx_drivers.elf 
-arm-none-eabi-objdump -h -S stm32f4xx_drivers.elf  > "stm32f4xx_drivers.list"
-   text	   data	    bss	    dec	    hex	filename
-    664	      0	   1568	   2232	    8b8	stm32f4xx_drivers.elf
-Finished building: default.size.stdout
- 
-Finished building: stm32f4xx_drivers.list
+21:56:08 **** Clean-only build of configuration Debug for project stm32f4xx_drivers ****
+make -j4 clean 
+rm -rf ./drivers/src/stm32f401xx_gpio_driver.cyclo ./drivers/src/stm32f401xx_gpio_driver.d ./drivers/src/stm32f401xx_gpio_driver.o ./drivers/src/stm32f401xx_gpio_driver.su
+rm -rf ./Startup/startup_stm32f401retx.d ./Startup/startup_stm32f401retx.o
+rm -rf ./Src/001ledToggle.cyclo ./Src/001ledToggle.d ./Src/001ledToggle.o ./Src/001ledToggle.su ./Src/syscalls.cyclo ./Src/syscalls.d ./Src/syscalls.o ./Src/syscalls.su ./Src/sysmem.cyclo ./Src/sysmem.d ./Src/sysmem.o ./Src/sysmem.su
+rm -rf default.size.stdout stm32f4xx_drivers.elf stm32f4xx_drivers.list stm32f4xx_drivers.map
  
 
-21:34:57 Build Finished. 0 errors, 0 warnings. (took 645ms)
+21:56:10 Build Finished. 0 errors, 0 warnings. (took 1s.715ms)
 
