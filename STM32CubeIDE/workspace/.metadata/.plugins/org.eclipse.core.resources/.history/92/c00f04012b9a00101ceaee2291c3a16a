@@ -4,10 +4,7 @@
  *  Created on: Sep 20, 2025
  *      Author: aksha
  */
-/**
- * @brief Program to toggle the On-board LED
- *
- */
+
 #include "stm32f401xx.h"
 #include "stm32f401xx_gpio_driver.h"
 

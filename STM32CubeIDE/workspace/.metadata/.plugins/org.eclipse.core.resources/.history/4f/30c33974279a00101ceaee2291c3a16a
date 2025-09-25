@@ -1,13 +1,11 @@
 /*
- * 001ledToggle.c
+ * 002led_button.c
  *
- *  Created on: Sep 20, 2025
+ *  Created on: Sep 25, 2025
  *      Author: aksha
  */
-/**
- * @brief Program to toggle the On-board LED
- *
- */
+
+
 #include "stm32f401xx.h"
 #include "stm32f401xx_gpio_driver.h"
 
@@ -18,8 +16,7 @@ void delay(void){
 
 int main()
 {
-	GPIO_Handle_t GpioLed;
-
+	GPIO_Handle_t GpioLed,GpioBtn;
 	GpioLed.pGPIOx= GPIOA;
 	GpioLed.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_5;
 	GpioLed.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_OUT;
