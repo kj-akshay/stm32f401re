@@ -3,3 +3,4 @@
 "./Src/sysmem.o"
 "./Startup/startup_stm32f401retx.o"
 "./drivers/src/stm32f401xx_gpio_driver.o"
+"./drivers/src/stm32f401xx_spi_driver.o"
