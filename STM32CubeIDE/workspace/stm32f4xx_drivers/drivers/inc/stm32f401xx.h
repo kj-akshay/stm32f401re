@@ -12,14 +12,42 @@
 #include<stdint.h>
 
 #define __vo	volatile
-/*
+
+/****************************************PROCESSOR SPECIFIC DETAILS********************************************************************
+ * ARM Cortex Mx Processor NVIC ISERx register address
+ */
+#define NVIC_ISER0		((__vo uint32_t*) 0xE000E100U)
+#define NVIC_ISER1		((__vo uint32_t*) 0xE000E104U)
+#define NVIC_ISER2		((__vo uint32_t*) 0xE000E108U)
+#define NVIC_ISER3		((__vo uint32_t*) 0xE000E10CU)
+
+
+/**
+ * ARM Cortex Mx Processor NVIC ICERx register address
+ */
+#define NVIC_ICER0		((__vo uint32_t*) 0XE000E180U)
+#define NVIC_ICER1		((__vo uint32_t*) 0XE000E184U)
+#define NVIC_ICER2		((__vo uint32_t*) 0XE000E188U)
+#define NVIC_ICER3		((__vo uint32_t*) 0XE000E18CU)
+
+/**
+ * ARM Cortex Mx Processor Interrupt Priority register address
+ *
+ */
+#define NVIC_IPR_BASE_ADDR		((__vo uint32_t*) 0xE000E400U)
+
+#define NO_PR_BITS_IMPLEMENTED		4		//This value is $ in ST controller ; different uC may have different values
+
+
+
+/**
 Base addrress of Falsh and Sram memory
 */
 #define FLASH_BASEADDR	0x08000000U		//reference manual page 45
 #define SRAM_BASEADDR	0x20000000U		//reference manual page 42
 #define ROM_BASEADDR	0x1FFF0000U		//reference manual page 45 rom is also called system memory
 
-/*
+/**
 Base addrress of bus domains
 */
 #define APB1PERIPH_BASE    0x40000000U      //0x4000 0000 - 0x4000 73FF    
@@ -28,7 +56,7 @@ Base addrress of bus domains
 #define AHB2PERIPH_BASE    0x50000000U      //0x5000 0000 - 0x5003 FFFF
 
 
-/*
+/**
 Base address of peripherals which are hanging on AHB1 bus
 (GPIOA,GPIOB,GPIOC,GPIOD,GPIOE,GPIOH,DMA1,DMA2,Flash interface register,RCC,CRC) page 38 of reference manual
 */
@@ -40,7 +68,7 @@ Base address of peripherals which are hanging on AHB1 bus
 #define GPIOH_BASEADDR  (AHB1PERIPH_BASE + 0x1C00)      
 #define RCC_BASEADDR	(AHB1PERIPH_BASE + 0x3800)
 
-/*
+/**
 Base address of peripherals which are hanging on APB1 bus
 (TIM2,3,4,5,RTC,WWDG,SPI2,SPI3,USART2,I2C1,2,3,) page 38 of reference manual
 */
@@ -118,8 +146,31 @@ typedef struct
 
 }RCC_RegDef_t;
 
+/************************Register definition for EXTI***********************/
+typedef struct{
+	__vo uint32_t IMR;			//Interrupt mask register
+	__vo uint32_t EMR;			//Event mask register
+	__vo uint32_t RTSR;			//Rising trigger selection register
+	__vo uint32_t FTSR;			//Falling trigger selection register
+	__vo uint32_t SWIER;		//Software interrupt event register
+	__vo uint32_t PR;			//Pending register
+}EXTI_RegDef_t;
+
+
+typedef struct{
+	__vo uint32_t MEMRMP;			//memory re-map register
+	__vo uint32_t PMC;				//peripheral mode configuration register
+	__vo uint32_t EXTICR[4];			//external interrupt configuration register 1
+	//__vo uint32_t EXTICR2;			//external interrupt configuration register 2
+	//__vo uint32_t EXTICR3;			//external interrupt configuration register 3
+	//__vo uint32_t EXTICR4;			//external interrupt configuration register 4
+	__vo uint32_t CMPCR;			//Compensation cell control register
+}SYSCFG_RegDef_t;
+
+
+
 /*
- * peripheral definitions (Peripheral base address tycasted to xxx_RegDef_t)
+ * peripheral definitions (Peripheral base address type casted to xxx_RegDef_t)
  */
 #define GPIOA	((GPIO_RegDef_t*) GPIOA_BASEADDR)
 #define GPIOB	((GPIO_RegDef_t*) GPIOB_BASEADDR)
@@ -129,6 +180,8 @@ typedef struct
 #define GPIOH	((GPIO_RegDef_t*) GPIOH_BASEADDR)
 
 #define RCC		((RCC_RegDef_t*) RCC_BASEADDR)
+#define EXTI	((EXTI_RegDef_t*) EXTI_BASEADDR)
+#define SYSCFG 	((SYSCFG_RegDef_t*) SYSCFG_BASEADDR)
 
 
 /*
@@ -180,13 +233,14 @@ typedef struct
 
 
 
-/*
+/**
  * Clock enabling macros for USART peripherals
  */
 #define USART1_PCLK_EN()	(RCC->APB2ENR |= (1<<4))
 #define USART2_PCLK_EN()	(RCC->APB1ENR |= (1<<17))
 #define USART6_PCLK_EN()	(RCC->APB1ENR |= (1<<5))
-/*
+
+/**
  * Clock disabling macros for USART peripherals
  */
 #define USART1_PCLK_DI()	(RCC->APB2ENR &= ~(1<<4))
@@ -195,19 +249,19 @@ typedef struct
 
 
 
-/*
+/**
  * Clock enabling macros for SYSCFG peripherals
  */
 #define SYSCFG_PCLK_EN()	(RCC->APB2ENR |= (1<<14))
-/*
+
+/**
  * Clock disabling macros for SYSCFG peripherals
  */
 #define SYSCFG_PCLK_DI()	(RCC->APB2ENR &= ~(1<<14))
 
-/*
+/**
  * Macros to reset the GPIO peripheral
  */
-
 #define GPIOA_REG_RESET()	do{ (RCC->AHB1RSTR |= (1 << 0));(RCC->AHB1RSTR &= ~(1<<0)); }while(0)
 #define GPIOB_REG_RESET()	do{ (RCC->AHB1RSTR |= (1 << 1));(RCC->AHB1RSTR &= ~(1<<1)); }while(0)
 #define GPIOC_REG_RESET()	do{ (RCC->AHB1RSTR |= (1 << 2));(RCC->AHB1RSTR &= ~(1<<2)); }while(0)
@@ -215,7 +269,37 @@ typedef struct
 #define GPIOE_REG_RESET()	do{ (RCC->AHB1RSTR |= (1 << 4));(RCC->AHB1RSTR &= ~(1<<4)); }while(0)
 #define GPIOH_REG_RESET()	do{ (RCC->AHB1RSTR |= (1 << 7));(RCC->AHB1RSTR &= ~(1<<7)); }while(0)
 
-//some generic macros
+
+/**
+ * This macro returns a code between 0 to 7 for given GPIO base adress
+ */
+#define GPIO_BASEADDR_TO_CODE(x)	((x==GPIOA) ? 0 :\
+									(x==GPIOB) ? 1 :\
+									(x==GPIOC) ? 2 :\
+									(x==GPIOD) ? 3 :\
+									(x==GPIOE) ? 4 :\
+									(x==GPIOH) ? 7 :0)
+
+
+/**
+ * IRQ Number of STM32F401RE
+ */
+#define IRQ_NO_EXTI0		6
+#define IRQ_NO_EXTI1		7
+#define IRQ_NO_EXTI2		8
+#define IRQ_NO_EXTI3		9
+#define IRQ_NO_EXTI4		10
+#define IRQ_NO_EXTI9_5		23
+#define IRQ_NO_EXTI15_10	40
+
+#define NVIC_IRQ_PRIO15		15
+
+
+
+
+/**
+ * some generic macros
+ */
 #define ENABLE 1
 #define  DISABLE 0
 #define SET		ENABLE

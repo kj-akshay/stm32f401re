@@ -1,9 +1,10 @@
 /*
- * 002led_button.c
+ * 005ButtonInterrupt.c
  *
- *  Created on: Sep 25, 2025
+ *  Created on: Sep 28, 2025
  *      Author: aksha
  */
+
 
 /**
  * @brief Program to toggle the on board LED whenever the on board push button is presses
@@ -40,7 +41,7 @@ int main()
 
 	GpioBtn.pGPIOx= GPIOC;
 	GpioBtn.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_13;
-	GpioBtn.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_IT_FT;
+	GpioBtn.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_IT_RFT;
 	GpioBtn.GPIO_PinConfig.GPIO_PinSpeed = GPIO_OSPEED_HIGH;
 	//GpioBtn.GPIO_PinConfig.GPIO_PinOPType = GPIO_OTYPE_PP;  // no required when pin mode is INPUT
 		//GpioLed.GPIO_PinConfig.GPIO_PinOPType = GPIO_OTYPE_OD;
@@ -49,18 +50,19 @@ int main()
 	GPIO_PeriClockControl(GPIOC, ENABLE);
 	GPIO_Init(&GpioBtn);
 
-	//IRQ Configuration
-	GPIO_IRQInterruptConfig(IRQ_NO_EXTI15_10, EnorDi)
+	//IRQ configurations
+	GPIO_IRQPriorityConfig(IRQ_NO_EXTI15_10,NVIC_IRQ_PRIO15);
+	GPIO_IRQInterruptConfig(IRQ_NO_EXTI15_10, ENABLE);
+	while(1);
 
-	while(1){
-
-		if(GPIO_ReadFromInputPin(GPIOC, GPIO_PIN_NO_13) == BTN_PRESSED){
-			delay();
-			ToggleOutputPin(GPIOA,5);
-		}
-
-	}
 
 
 	return 0;
+}
+
+void EXTI15_10_IRQHandler(void){
+	GPIO_IRQHandling(GPIO_PIN_NO_13);
+	ToggleOutputPin(GPIOA, GPIO_PIN_NO_5);
+	//delay();
+
 }
