@@ -33,38 +33,6 @@ typedef struct{
 	SPI_Config_t SPIConfig;
 }SPI_Handle_t;
 
-
-/*****************************************************************************************************
- * 						API Supported by this driver
- *****************************************************************************************************/
-
-/**
- * peripheacal clk setup
- */
-void SPI_PeriClockControl(SPI_RegDef_t *pSPIx,uint8_t EnorDi);
-
-
-/**
- * Init and De-init
- */
-void SPI_Init(SPI_Handle_t *pSPIHandle);
-void SPI_DeInit(SPI_RegDef_t *pSPIx);
-
-/**
- * Data send and receive
- */
-void SPI_SendData(SPI_RegDef_t *pSPIx, uint8_t *pTxBuffer,uint32_t Len);
-void SPI_ReceiveData(SPI_RegDef_t *pSPIx, uint8_t *pRxBuffer,uint32_t Len);
-
-
-/**
- * IRQ config and ISR handling
- */
-void SPI_IRQInterruptConfig(uint8_t IRQNumber,uint8_t EnorDi);
-void SPI_IRQPriorityConfig(uint8_t IRQNumber,uint8_t IRQPriority);
-void SPI_IRQHandling(SPI_Handle_t *pSPIHandle);
-
-
 /**
  * SPI_DeviceMode
  * SPI_CRI[2]
@@ -119,4 +87,50 @@ void SPI_IRQHandling(SPI_Handle_t *pSPIHandle);
   */
 #define SPI_SSM_EN		1
 #define SPI_SSM_DI		0
+
+/**
+ * SPI related status flag
+ *
+ */
+#define SPI_TXE_FLAG		(1 << SPI_SR_TXE)
+#define SPI_RXNE_FLAG		(1 << SPI_SR_RXNE)
+#define SPI_BUSY_FLAG		(1 << SPI_SR_BSY)
+
+/*****************************************************************************************************
+ * 						API Supported by this driver
+ *****************************************************************************************************/
+
+/**
+ * peripheacal clk setup
+ */
+void SPI_PeriClockControl(SPI_RegDef_t *pSPIx,uint8_t EnorDi);
+
+
+/**
+ * Init and De-init
+ */
+void SPI_Init(SPI_Handle_t *pSPIHandle);
+void SPI_DeInit(SPI_RegDef_t *pSPIx);
+
+/**
+ * Data send and receive
+ */
+void SPI_SendData(SPI_RegDef_t *pSPIx, uint8_t *pTxBuffer,uint32_t Len);
+void SPI_ReceiveData(SPI_RegDef_t *pSPIx, uint8_t *pRxBuffer,uint32_t Len);
+
+
+/**
+ * IRQ config and ISR handling
+ */
+void SPI_IRQInterruptConfig(uint8_t IRQNumber,uint8_t EnorDi);
+void SPI_IRQPriorityConfig(uint8_t IRQNumber,uint8_t IRQPriority);
+void SPI_IRQHandling(SPI_Handle_t *pSPIHandle);
+
+/**
+ * Other peripheral control APIs
+ */
+void SPI_PeripheralControl(SPI_RegDef_t *pSPIx, uint8_t EnOrDi);
+void SPI_SSICofig(SPI_RegDef_t *pSPIx, uint8_t EnOrDi);
+
+
 #endif /* INC_STM32F401XX_SPI_DRIVER_H_ */

@@ -1,4 +1,4 @@
-"./Src/005ButtonInterrupt.o"
+"./Src/006spi_tx_testing.o"
 "./Src/syscalls.o"
 "./Src/sysmem.o"
 "./Startup/startup_stm32f401retx.o"
