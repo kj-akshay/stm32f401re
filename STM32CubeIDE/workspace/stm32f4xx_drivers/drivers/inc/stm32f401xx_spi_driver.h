@@ -131,6 +131,8 @@ void SPI_IRQHandling(SPI_Handle_t *pSPIHandle);
  */
 void SPI_PeripheralControl(SPI_RegDef_t *pSPIx, uint8_t EnOrDi);
 void SPI_SSICofig(SPI_RegDef_t *pSPIx, uint8_t EnOrDi);
+void SPI_SSOECofig(SPI_RegDef_t *pSPIx, uint8_t EnOrDi);
+uint8_t SPI_GetFlagStatus(SPI_RegDef_t *pSPIx, uint32_t FlagName);
 
 
 #endif /* INC_STM32F401XX_SPI_DRIVER_H_ */
