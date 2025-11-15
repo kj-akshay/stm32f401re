@@ -85,6 +85,7 @@ Base address of peripherals which are hanging on APB2 bus
 (TIM1,USART1,USART6,SPI,SPI1,SPI4,SYSCFG,EXTI,TIM9,10,11) page 38 of reference manual
 */
 #define USART1_BASEADDR	(APB2PERIPH_BASE + 0x1000 )
+//#define USART2_BASEADDR	(APB1PERIPH_BASE + 0x4400 ) // usart1 ==2 is in apb1 , other two are in apb2
 #define USART6_BASEADDR	(APB2PERIPH_BASE + 0x1400 )
 #define ADC1_BASEADDR	(APB2PERIPH_BASE + 0x2000 )
 #define SPI1_BASEADDR	(APB2PERIPH_BASE + 0x3000 )
@@ -160,6 +161,18 @@ typedef struct{
 }SPI_RegDef_t;
 
 
+/**********************peripheral register definition for USART******************/
+typedef struct{
+	__vo uint32_t SR;			//Status register
+	__vo uint32_t DR;			//Data register
+	__vo uint32_t BRR;			//Baud rate register
+	__vo uint32_t CR1;			//Control register 1
+	__vo uint32_t CR2;			//Control register 2
+	__vo uint32_t CR3;			//Control register 3
+	__vo uint32_t GTPR;			//Guard time and prescaler register
+}USART_RegDef_t;
+
+
 /************************Register definition for EXTI***********************/
 typedef struct{
 	__vo uint32_t IMR;			//Interrupt mask register
@@ -203,6 +216,10 @@ typedef struct{
 #define SPI3	((SPI_RegDef_t*) SPI3_BASEADDR)
 #define SPI4	((SPI_RegDef_t*) SPI4_BASEADDR)
 
+
+#define USART1	((USART_RegDef_t*) USART1_BASEADDR)
+#define USART2	((USART_RegDef_t*) USART2_BASEADDR)
+#define USART6	((USART_RegDef_t*) USART6_BASEADDR)
 /*
  * Clock enabling macros for GPIOx peripherals
  */
@@ -261,14 +278,14 @@ typedef struct{
  */
 #define USART1_PCLK_EN()	(RCC->APB2ENR |= (1<<4))
 #define USART2_PCLK_EN()	(RCC->APB1ENR |= (1<<17))
-#define USART6_PCLK_EN()	(RCC->APB1ENR |= (1<<5))
+#define USART6_PCLK_EN()	(RCC->APB2ENR |= (1<<5))
 
 /**
  * Clock disabling macros for USART peripherals
  */
 #define USART1_PCLK_DI()	(RCC->APB2ENR &= ~(1<<4))
 #define USART2_PCLK_DI()	(RCC->APB1ENR &= ~(1<<17))
-#define USART6_PCLK_DI()	(RCC->APB1ENR &= ~(1<<5))
+#define USART6_PCLK_DI()	(RCC->APB2ENR &= ~(1<<5))
 
 
 
@@ -370,6 +387,17 @@ typedef struct{
 #define SPI_SR_FRE			8
 
 
+/**bit position of USART perpheral**/
+#define USART_SR_PE		0		//Parity error
+#define USART_SR_FE	 	1		//Framing error
+#define USART_SR_NF		2		//Noise detected flag
+#define USART_SR_ORE	3		//Overrun error
+#define USART_SR_IDLE	4		//IDLE line detected
+#define USART_SR_RXNE	5		//Read data register not empty
+#define USART_SR_TC		6		//Transmission complete
+#define USART_SR_TXE	7		//Transmit data register empty
+#define USART_SR_LBD	8		//LIN break detection flag
+#define USART_SR_CTS	9
 
 
 
