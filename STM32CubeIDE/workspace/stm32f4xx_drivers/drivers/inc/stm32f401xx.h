@@ -399,6 +399,16 @@ typedef struct{
 #define USART_SR_LBD	8		//LIN break detection flag
 #define USART_SR_CTS	9
 
+#define USART_CR1_RE	2
+#define USART_CR1_TE	3
+#define USART_CR1_M		12		//wordlength
+#define USART_CR1_PCE	10		//parity control enable
+#define USART_CR1_PS	9		//parity Selection
+
+#define USART_CR2_STOP	12
+
+#define USART_CR3_CTSE	9
+#define USART_CR3_RTSE	8
 
 
 

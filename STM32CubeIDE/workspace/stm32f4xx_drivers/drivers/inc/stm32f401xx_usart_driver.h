@@ -10,6 +10,81 @@
 
 #include "stm32f401xx.h"
 
+
+/**
+ * USART related status flag
+ *
+ */
+#define SPI_TXE_FLAG		(1 << SPI_SR_TXE)
+#define SPI_RXNE_FLAG		(1 << SPI_SR_RXNE)
+#define SPI_BUSY_FLAG		(1 << SPI_SR_BSY)
+
+/*
+ *@USART_Mode
+ *Possible options for USART_Mode
+ *Register-CR1  Bit - 2 and 3
+ */
+#define USART_MODE_ONLY_TX		0
+#define USART_MODE_ONLY_RX 		1
+#define USART_MODE_TXRX  		2
+
+
+/*
+ *@USART_Baud
+ *Possible options for USART_Baud
+ *Register-BRR
+ */
+#define USART_STD_BAUD_1200					1200
+#define USART_STD_BAUD_2400					2400
+#define USART_STD_BAUD_9600					9600
+#define USART_STD_BAUD_19200 				19200
+#define USART_STD_BAUD_38400 				38400
+#define USART_STD_BAUD_57600 				57600
+#define USART_STD_BAUD_115200 				115200
+#define USART_STD_BAUD_230400 				230400
+#define USART_STD_BAUD_460800 				460800
+#define USART_STD_BAUD_921600 				921600
+#define USART_STD_BAUD_2M 					2000000
+#define SUART_STD_BAUD_3M 					3000000
+
+
+/*
+ *@USART_ParityControl
+ *Possible options for USART_ParityControl
+ *Register-CR1  Bit - 9 and 10
+ */
+#define USART_PARITY_DISABLE  0
+#define USART_PARITY_EN_EVEN  1
+#define USART_PARITY_EN_ODD   2
+
+/*
+ *@USART_WordLength
+ *Possible options for USART_WordLength
+ *Register-CR1  Bit - 12
+ */
+#define USART_WORDLEN_8BITS  0
+#define USART_WORDLEN_9BITS  1
+
+/*
+ *@USART_NoOfStopBits
+ *Possible options for USART_NoOfStopBits
+ */
+#define USART_STOPBITS_1     0
+#define USART_STOPBITS_0_5   1
+#define USART_STOPBITS_2     2
+
+/*
+ *@USART_HWFlowControl
+ *Possible options for USART_HWFlowControl
+ */
+#define USART_HW_FLOW_CTRL_NONE    	0
+#define USART_HW_FLOW_CTRL_CTS    	1
+#define USART_HW_FLOW_CTRL_RTS    	2
+#define USART_HW_FLOW_CTRL_CTS_RTS	3
+
+
+
+
 /**
  * config structure fir uart peripheral
  */
@@ -27,8 +102,8 @@ typedef struct{
  *
  */
 typedef struct{
-	SPI_RegDef_t *pUSARTx;  //This holds the base address of the SPIx
-	SPI_Config_t USART_Config;
+	USART_RegDef_t *pUSARTx;  //This holds the base address of the SPIx
+	USART_Config_t USART_Config;
 }USART_Handle_t;
 
 
