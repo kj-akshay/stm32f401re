@@ -15,9 +15,9 @@
  * USART related status flag
  *
  */
-#define SPI_TXE_FLAG		(1 << SPI_SR_TXE)
-#define SPI_RXNE_FLAG		(1 << SPI_SR_RXNE)
-#define SPI_BUSY_FLAG		(1 << SPI_SR_BSY)
+#define USART_TXE_FLAG		(1 << USART_SR_TXE)
+#define USART_RXNE_FLAG		(1 << USART_SR_RXNE)
+#define USART_TC_FLAG		(1 << USART_SR_TC)
 
 /*
  *@USART_Mode
